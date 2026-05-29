@@ -17,7 +17,7 @@ spring:
         globalcors:
           cors-configurations:
             '[/**]':
-              allowedOrigins: "*"
+              allowedOriginsPatterns: "*"
               allowedMethods: "*"
               allowedHeaders: "*"
               allowCredentials: true
@@ -31,7 +31,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 jwt:
-  secret: ${JWT_SECRET:dev-secret-key-change-me-this-must-be-at-least-32-bytes-long}
+  secret: ${JWT_SECRET}
   whitelist:
     - /api/v1/auth/**
     - /actuator/**

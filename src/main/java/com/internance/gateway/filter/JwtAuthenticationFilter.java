@@ -77,10 +77,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             Claims claims = jwtProvider.parseClaims(token);
+            String subject = claims.getSubject();
+            if (!StringUtils.hasText(subject)) {
+                sendError(response, GlobalErrorCode.UNAUTHORIZED, "Invalid authentication token.");
+                return;
+            }
 
             // Override any client-supplied X-User-Id so only the verified subject reaches downstream services.
             UserContextRequestWrapper wrapped = new UserContextRequestWrapper(request, Map.of(
-                    UserContextFilter.USER_ID_HEADER, claims.getSubject()
+                    UserContextFilter.USER_ID_HEADER, subject
             ));
             filterChain.doFilter(wrapped, response);
         } catch (JwtException | IllegalArgumentException e) {
