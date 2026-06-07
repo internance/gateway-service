@@ -2,13 +2,12 @@ package com.internance.gateway.config;
 
 import com.internance.common.kafka.event.EventEnvelope;
 import com.internance.gateway.config.event.ConfigChangedEvent;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.refresh.ContextRefresher;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 /**
  * Subscribes to the {@code config.changed} events config-service publishes through

@@ -1,16 +1,13 @@
 spring:
   application:
     name: gateway-service
+  threads:
+    virtual:
+      enabled: true
   config:
     import: "optional:configserver:${CONFIG_SERVER_URI:http://config-service:8888}"
-  kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
-    consumer:
-      group-id: ${spring.application.name}-${random.uuid}
-      auto-offset-reset: latest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+  
+server:
+  port: 8000
 
-config:
-  events:
-    topic: ${CONFIG_EVENTS_TOPIC:config-changed}
+

@@ -1,8 +1,7 @@
 package com.internance.gateway.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Binds the {@code jwt.*} properties from application configuration.

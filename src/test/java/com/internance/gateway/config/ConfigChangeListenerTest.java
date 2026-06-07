@@ -1,20 +1,19 @@
 package com.internance.gateway.config;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+
 import com.internance.common.kafka.event.EventEnvelope;
 import com.internance.gateway.config.event.ConfigChangedEvent;
+import java.time.Instant;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.cloud.context.refresh.ContextRefresher;
-
-import java.time.Instant;
-import java.util.Set;
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class ConfigChangeListenerTest {

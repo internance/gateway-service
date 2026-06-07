@@ -1,17 +1,16 @@
 package com.internance.gateway.config;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.internance.common.kafka.event.EventEnvelope;
 import com.internance.gateway.config.event.ConfigChangedEvent;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.support.converter.ByteArrayJsonMessageConverter;
 import org.springframework.messaging.Message;
-
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Locks in the wire contract with config-service: it publishes the {@code EventEnvelope}
