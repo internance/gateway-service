@@ -16,18 +16,22 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class JwtProvider {
 
-    private final SecretKey secretKey;
+    private final JwtProperties properties;
 
     public JwtProvider(JwtProperties properties) {
-        this.secretKey = Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8));
+        this.properties = properties;
     }
 
     /**
      * Validates the token and returns its claims.
      *
+     * <p>The signing key is derived from the current {@link JwtProperties} on each call, so
+     * a secret rotated via a config refresh takes effect immediately.
+     *
      * @throws io.jsonwebtoken.JwtException if validation fails (bad signature, expired, malformed, ...)
      */
     public Claims parseClaims(String token) {
+        SecretKey secretKey = Keys.hmacShaKeyFor(properties.getSecret().getBytes(StandardCharsets.UTF_8));
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()

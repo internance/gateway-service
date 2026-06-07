@@ -23,7 +23,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final JwtProvider jwtProvider;
-    private final List<String> whitelist;
+    private final JwtProperties properties;
     private final ObjectMapper objectMapper;
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
 
@@ -55,14 +54,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                    JwtProperties properties,
                                    ObjectMapper objectMapper) {
         this.jwtProvider = jwtProvider;
-        this.whitelist = properties.whitelist();
+        this.properties = properties;
         this.objectMapper = objectMapper;
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return whitelist.stream().anyMatch(pattern -> pathMatcher.match(pattern, path));
+        // Read the whitelist live so a config refresh (see ConfigChangeListener) takes effect.
+        return properties.getWhitelist().stream().anyMatch(pattern -> pathMatcher.match(pattern, path));
     }
 
     @Override
