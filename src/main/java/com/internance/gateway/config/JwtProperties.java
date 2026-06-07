@@ -35,6 +35,6 @@ public class JwtProperties {
     }
 
     public void setWhitelist(List<String> whitelist) {
-        this.whitelist = whitelist;
+        this.whitelist = (whitelist == null) ? List.of() : List.copyOf(whitelist);
     }
 }

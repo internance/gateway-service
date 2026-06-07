@@ -31,7 +31,11 @@ public class JwtProvider {
      * @throws io.jsonwebtoken.JwtException if validation fails (bad signature, expired, malformed, ...)
      */
     public Claims parseClaims(String token) {
-        SecretKey secretKey = Keys.hmacShaKeyFor(properties.getSecret().getBytes(StandardCharsets.UTF_8));
+        String secret = properties.getSecret();
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalArgumentException("jwt.secret is not configured");
+        }
+        SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
